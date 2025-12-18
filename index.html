@@ -18,7 +18,6 @@
             color: white;
         }
 
-        /* --- MUNDO (CÂMERA) --- */
         #world {
             position: absolute;
             width: 100%;
@@ -30,7 +29,6 @@
             z-index: 1;
         }
 
-        /* --- CÉU --- */
         #sky-section {
             position: absolute;
             top: 0;
@@ -56,7 +54,6 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* ESTRELA SECRETA */
         #secret-star {
             position: absolute;
             top: 25%;
@@ -85,7 +82,6 @@
             100% { transform: scale(1); opacity: 0.6; }
         }
 
-        /* ESTRELA CADENTE */
         .shooting-star {
             position: absolute;
             top: 20%;
@@ -105,7 +101,6 @@
             100% { left: 120%; top: 60%; opacity: 0; }
         }
 
-        /* MENSAGEM FINAL */
         #final-msg {
             text-align: center;
             opacity: 0;
@@ -127,7 +122,6 @@
             color: #ddd;
         }
 
-        /* --- LANTERNAS --- */
         .lantern-fire::after {
             content: '';
             position: absolute;
@@ -175,7 +169,6 @@
             100% { transform: translateY(-150vh); opacity: 0; }
         }
 
-        /* --- CHÃO --- */
         #ground-section {
             position: absolute;
             bottom: 0;
@@ -243,7 +236,6 @@
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         }
 
-        /* --- MODAL DA MENSAGEM SECRETA --- */
         #secret-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -317,7 +309,7 @@
                 <h1>Feliz 2026</h1>
                 <p>Que sua luz brilhe mais forte do que nunca.<br>
                 O mundo ficou pequeno para o tamanho dos seus sonhos.</p>
-                <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.6;">(Psiu: Tem uma estrela diferente brilhando ali...)</p>
+                <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.6;">(Obs: Tem uma estrela diferente brilhando ali...)</p>
             </div>
         </div>
 
@@ -337,7 +329,7 @@
             <h2 style="font-family: 'Cinzel'; color: #b8860b; margin-bottom: 20px;">Para você que está lendo... ✨</h2>
             
             <p>
-                Se você encontrou esta estrela, saiba que você faz parte da minha história.
+                Se você encontrou esta estrela, saiba que você é alguém importante.
             </p>
             <p>
                 Para minha <b>família e amigos de longa data</b>: obrigado por serem meu porto seguro e por mais um ano de parceria. Vocês são essenciais.
@@ -349,7 +341,7 @@
                 Que o nosso próximo ano seja brilhante.
             </p>
             
-            <p style="font-weight: bold; margin-top: 30px; font-family: 'Cinzel';">- Yure</p>
+            <p style="font-weight: bold; margin-top: 30px; font-family: 'Cinzel';">Do seu garoto de programa favorito <br>- Yure</br></p>
             <button class="close-modal" onclick="closeSecret()">Guardar no coração</button>
         </div>
     </div>
@@ -367,7 +359,6 @@
         const audio = document.getElementById('bg-music');
         audio.volume = 0.5;
 
-        // 1. GERAR ESTRELAS
         function createStars() {
             for(let i=0; i<150; i++) {
                 const star = document.createElement('div');
@@ -383,7 +374,6 @@
         }
         createStars();
 
-        // 2. GERAR ÁRVORES
         function createTrees() {
             for(let i=0; i<20; i++) {
                 const tree = document.createElement('div');
@@ -398,7 +388,6 @@
         }
         createTrees();
 
-        // 3. FESTIVAL DE LANTERNAS
         function spawnBgLanterns() {
             for(let i=0; i<35; i++) {
                 setTimeout(() => {
@@ -423,7 +412,6 @@
             }
         }
 
-        // 4. AÇÃO PRINCIPAL
         startBtn.addEventListener('click', () => {
             audio.play().catch(e => {});
             startBtn.style.opacity = '0';
@@ -462,4 +450,5 @@
 
     </script>
 </body>
+
 </html>
