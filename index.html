@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feliz 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;500;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+        }
+
+        /* --- MUNDO (CÂMERA) --- */
+        #world {
+            position: absolute;
+            width: 100%;
+            height: 200vh; 
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to top, #020205 0%, #1a1a2e 30%, #000000 90%);
+            transition: transform 15s ease-in-out;
+            z-index: 1;
+        }
+
+        /* --- CÉU --- */
+        #sky-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ESTRELA SECRETA */
+        #secret-star {
+            position: absolute;
+            top: 25%;
+            right: 15%;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 2s;
+            box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700;
+            animation: pulseSecret 2s infinite;
+        }
+        
+        #secret-star::before {
+            content: '';
+            position: absolute;
+            top: -30px; left: -30px; right: -30px; bottom: -30px;
+        }
+
+        @keyframes pulseSecret {
+            0% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(2); opacity: 1; box-shadow: 0 0 50px #ffd700; }
+            100% { transform: scale(1); opacity: 0.6; }
+        }
+
+        /* ESTRELA CADENTE */
+        .shooting-star {
+            position: absolute;
+            top: 20%;
+            left: -10%;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,1), transparent);
+            transform: rotate(20deg);
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .shoot-anim { animation: shoot 2.5s ease-out forwards; }
+
+        @keyframes shoot {
+            0% { left: -10%; top: 20%; opacity: 1; }
+            100% { left: 120%; top: 60%; opacity: 0; }
+        }
+
+        /* MENSAGEM FINAL */
+        #final-msg {
+            text-align: center;
+            opacity: 0;
+            transition: opacity 3s ease;
+            z-index: 20;
+            padding: 20px;
+        }
+
+        #final-msg h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            margin: 0 0 20px 0;
+        }
+
+        #final-msg p {
+            font-size: 1.3rem;
+            color: #ddd;
+        }
+
+        /* --- LANTERNAS --- */
+        .lantern-fire::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 40%;
+            background: radial-gradient(circle, #fff, #ff5722 40%, transparent 70%);
+            border-radius: 50%;
+            animation: flicker 0.6s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        }
+
+        #hero-lantern {
+            position: absolute;
+            left: 50%;
+            bottom: 15%; 
+            transform: translateX(-50%) scale(0.5); 
+            width: 60px;
+            height: 90px;
+            background: linear-gradient(to bottom, #ffeb3b, #ff9800);
+            border-radius: 5px 5px 15px 15px;
+            opacity: 0; 
+            z-index: 100;
+            transition: bottom 18s ease-in, transform 18s ease-in, opacity 2s;
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.8);
+        }
+
+        .bg-lantern {
+            position: absolute;
+            background: linear-gradient(to bottom, #ffeb3b, #ff9800);
+            border-radius: 5px 5px 15px 15px;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        @keyframes floatUpSimple {
+            0% { transform: translateY(0); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-150vh); opacity: 0; }
+        }
+
+        /* --- CHÃO --- */
+        #ground-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 80px;
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 100px solid #0d1b1e; 
+            z-index: 6;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.8));
+        }
+        
+        .tree::after {
+            content: '';
+            position: absolute;
+            left: -20px; top: 35px;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 70px solid #081214; 
+        }
+
+        .landscape {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: #000; 
+            z-index: 5;
+            box-shadow: 0 -10px 20px rgba(0,0,0,1);
+        }
+
+        #start-btn {
+            background: transparent;
+            border: 2px solid #ffd700;
+            padding: 15px 40px;
+            border-radius: 50px;
+            color: #ffd700;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.5s;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 50;
+            margin-bottom: 50px;
+        }
+
+        #start-btn:hover {
+            background: #ffd700;
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        /* --- MODAL DA MENSAGEM SECRETA --- */
+        #secret-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s;
+        }
+        
+        #secret-modal.show { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background: #fff;
+            color: #1a1a2e;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 85%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
+            border: 1px solid #ffd700;
+        }
+
+        .modal-content p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+
+        .close-modal {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: #1a1a2e;
+            color: #ffd700;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover { transform: scale(1.05); }
+
+        @media (max-width: 600px) {
+            #final-msg h1 { font-size: 2.5rem; }
+            #final-msg p { font-size: 1rem; }
+            .modal-content { padding: 25px; }
+            .modal-content p { font-size: 1rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="audio.mp3" loop preload="auto"></audio>
+
+    <div id="world">
+        
+        <div id="sky-section">
+            <div class="shooting-star" id="shooting-star"></div>
+            
+            <div id="secret-star" title="Clique para ler"></div>
+
+            <div id="final-msg">
+                <h1>Feliz 2026</h1>
+                <p>Que sua luz brilhe mais forte do que nunca.<br>
+                O mundo ficou pequeno para o tamanho dos seus sonhos.</p>
+                <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.6;">(Psiu: Tem uma estrela diferente brilhando ali...)</p>
+            </div>
+        </div>
+
+        <div id="hero-lantern" class="lantern-fire"></div>
+
+        <div id="ground-section">
+            <div id="trees-container"></div>
+            <div class="landscape"></div>
+            
+            <button id="start-btn">Acender a 1ª Luz de 2026</button>
+        </div>
+
+    </div>
+
+    <div id="secret-modal">
+        <div class="modal-content">
+            <h2 style="font-family: 'Cinzel'; color: #b8860b; margin-bottom: 20px;">Para você que está lendo... ✨</h2>
+            
+            <p>
+                Se você encontrou esta estrela, saiba que você faz parte da minha história.
+            </p>
+            <p>
+                Para minha <b>família e amigos de longa data</b>: obrigado por serem meu porto seguro e por mais um ano de parceria. Vocês são essenciais.
+            </p>
+            <p>
+                E para as <b>pessoas incríveis que conheci em 2025</b>: que surpresa boa foi cruzar com vocês. Algumas conexões são recentes, mas trouxeram uma energia nova que eu faço questão de levar para 2026.
+            </p>
+            <p>
+                Que o nosso próximo ano seja brilhante.
+            </p>
+            
+            <p style="font-weight: bold; margin-top: 30px; font-family: 'Cinzel';">- Yure</p>
+            <button class="close-modal" onclick="closeSecret()">Guardar no coração</button>
+        </div>
+    </div>
+
+    <script>
+        const world = document.getElementById('world');
+        const startBtn = document.getElementById('start-btn');
+        const heroLantern = document.getElementById('hero-lantern');
+        const skySection = document.getElementById('sky-section');
+        const finalMsg = document.getElementById('final-msg');
+        const shootingStar = document.getElementById('shooting-star');
+        const secretStar = document.getElementById('secret-star');
+        const secretModal = document.getElementById('secret-modal');
+        const treesContainer = document.getElementById('trees-container');
+        const audio = document.getElementById('bg-music');
+        audio.volume = 0.5;
+
+        // 1. GERAR ESTRELAS
+        function createStars() {
+            for(let i=0; i<150; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = (Math.random() * 3) + 's';
+                skySection.appendChild(star);
+            }
+        }
+        createStars();
+
+        // 2. GERAR ÁRVORES
+        function createTrees() {
+            for(let i=0; i<20; i++) {
+                const tree = document.createElement('div');
+                tree.classList.add('tree');
+                tree.style.left = (Math.random() * 100) + '%';
+                const scale = Math.random() * 0.6 + 0.6; 
+                tree.style.transform = `scale(${scale})`;
+                tree.style.opacity = Math.random() * 0.4 + 0.6; 
+                tree.style.zIndex = Math.floor(Math.random() * 10);
+                treesContainer.appendChild(tree);
+            }
+        }
+        createTrees();
+
+        // 3. FESTIVAL DE LANTERNAS
+        function spawnBgLanterns() {
+            for(let i=0; i<35; i++) {
+                setTimeout(() => {
+                    const l = document.createElement('div');
+                    l.classList.add('bg-lantern');
+                    l.classList.add('lantern-fire'); 
+                    
+                    const size = Math.random() * 20 + 5;
+                    l.style.width = size * 0.7 + 'px';
+                    l.style.height = size + 'px';
+                    l.style.left = Math.random() * 100 + '%';
+                    l.style.bottom = '-50px';
+                    
+                    const duration = Math.random() * 10 + 15; 
+                    l.style.animation = `floatUpSimple ${duration}s linear forwards`;
+                    
+                    world.appendChild(l);
+                    
+                    setTimeout(() => { l.remove(); }, duration * 1000);
+                    
+                }, Math.random() * 8000); 
+            }
+        }
+
+        // 4. AÇÃO PRINCIPAL
+        startBtn.addEventListener('click', () => {
+            audio.play().catch(e => {});
+            startBtn.style.opacity = '0';
+            startBtn.style.pointerEvents = 'none';
+
+            heroLantern.style.opacity = '1';
+            heroLantern.style.transform = 'translateX(-50%) scale(1)';
+            
+            spawnBgLanterns();
+
+            setTimeout(() => {
+                world.style.transform = 'translateY(50%)'; 
+                heroLantern.style.bottom = '150%';
+            }, 1000);
+
+            setTimeout(() => {
+                finalMsg.style.opacity = '1';
+            }, 16000);
+
+            setTimeout(() => {
+                shootingStar.classList.add('shoot-anim');
+            }, 17000);
+
+            setTimeout(() => {
+                secretStar.style.opacity = '1';
+            }, 18000);
+        });
+
+        secretStar.addEventListener('click', () => {
+            secretModal.classList.add('show');
+        });
+
+        function closeSecret() {
+            secretModal.classList.remove('show');
+        }
+
+    </script>
+</body>
+</html>
