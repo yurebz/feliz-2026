@@ -169,6 +169,7 @@
             100% { transform: translateY(-150vh); opacity: 0; }
         }
 
+        /* --- CHÃO --- */
         #ground-section {
             position: absolute;
             bottom: 0;
@@ -292,6 +293,56 @@
             .modal-content p { font-size: 1rem; }
         }
 
+        .moon {
+            position: absolute;
+            top: 10%;
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #fff, #f4f4f4);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5), 0 0 80px rgba(255, 255, 255, 0.2);
+            opacity: 0.9;
+            z-index: 2; 
+        }
+
+        .firefly {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #ccff00;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #ccff00;
+            opacity: 0;
+            animation: flyFloat 8s infinite alternate;
+            pointer-events: none;
+            z-index: 7;
+        }
+
+        @keyframes flyFloat {
+            0% { transform: translate(0, 0); opacity: 0; }
+            20% { opacity: 1; }
+            50% { transform: translate(20px, -30px); opacity: 0.5; }
+            80% { opacity: 1; }
+            100% { transform: translate(-20px, -50px); opacity: 0; }
+        }
+
+        .mouse-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 215, 0, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fadeMouse 1s linear forwards;
+            z-index: 999;
+        }
+        @keyframes fadeMouse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
@@ -309,8 +360,9 @@
                 <h1>Feliz 2026</h1>
                 <p>Que sua luz brilhe mais forte do que nunca.<br>
                 O mundo ficou pequeno para o tamanho dos seus sonhos.</p>
-                <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.6;">(Obs: Tem uma estrela diferente brilhando ali...)</p>
+                <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.6;">(Psiu: Tem uma estrela diferente brilhando ali...)</p>
             </div>
+            <div class="moon"></div>
         </div>
 
         <div id="hero-lantern" class="lantern-fire"></div>
@@ -325,24 +377,39 @@
     </div>
 
     <div id="secret-modal">
-        <div class="modal-content">
-            <h2 style="font-family: 'Cinzel'; color: #b8860b; margin-bottom: 20px;">Para você que está lendo... ✨</h2>
+        <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+            <h2 style="font-family: 'Cinzel'; color: #b8860b; margin-bottom: 25px;">Um Novo Ciclo 🌟</h2>
             
             <p>
-                Se você encontrou esta estrela, saiba que você é alguém importante.
+                Diante da imensidão deste novo ciclo que se inicia, paremos um instante para contemplar não apenas o tempo que passou, mas a força invisível que nos sustentou até aqui.
             </p>
             <p>
-                Para minha <b>família e amigos de longa data</b>: obrigado por serem meu porto seguro e por mais um ano de parceria. Vocês são essenciais.
+                Muitas vezes, na correria dos dias, esquecemos que cada amanhecer é um milagre silencioso. Se chegamos às portas de 2026, é porque existe um propósito maior para nossas vidas, uma missão que ainda não terminou e uma luz que precisa continuar brilhando através de nós.
             </p>
             <p>
-                E para as <b>pessoas incríveis que conheci em 2025</b>: que surpresa boa foi cruzar com vocês. Algumas conexões são recentes, mas trouxeram uma energia nova que eu faço questão de levar para 2026.
-            </p>
-            <p>
-                Que o nosso próximo ano seja brilhante.
+                Sabemos que a vida nem sempre é um mar calmo. O ano que se encerra teve suas batalhas, seus dias de silêncio e suas provações. Mas é justamente nas tempestades que descobrimos a força da nossa âncora. A vida nunca prometeu uma caminhada sem pedras, mas a gente aprendeu a caminhar mesmo assim.
             </p>
             
-            <p style="font-weight: bold; margin-top: 30px; font-family: 'Cinzel';">Do seu garoto de programa favorito <br>- Yure</br></p>
-            <button class="close-modal" onclick="closeSecret()">Guardar no coração</button>
+            <hr style="border: 0; border-top: 1px solid #ffd700; margin: 20px 0; opacity: 0.5;">
+
+            <p>
+                <b>Para este novo ano, meu desejo é simples:</b>
+            </p>
+
+            <p>
+                Que em 2026, a vida seja mais leve e as coisas fluam com naturalidade. Que as oportunidades encontrem você preparado, e que cada esforço seu traga uma recompensa justa. Que não falte saúde para correr atrás dos objetivos, nem tranquilidade para descansar quando for preciso.
+            </p>
+            <p>
+                Que seja um ano de crescimento real, onde os sonhos saiam do papel e virem rotina. Que você tenha sabedoria para fazer boas escolhas, paciência para o que não depende de você, e que tenha sempre por perto pessoas que torcem pela sua felicidade.
+            </p>
+            <p>
+                Vamos fazer desse ano um capítulo bonito da nossa história, vivendo um dia de cada vez, com o coração tranquilo.
+            </p>
+            
+            <hr style="border: 0; border-top: 1px solid #ffd700; margin: 20px 0; opacity: 0.5;">
+
+            <p style="font-weight: bold; margin-top: 40px; font-family: 'Cinzel';">Um abençoado 2026 para você e os seus.<br>- Yure</p>
+            <button class="close-modal" onclick="closeSecret()">Assim seja ✨</button>
         </div>
     </div>
 
@@ -445,10 +512,58 @@
         });
 
         function closeSecret() {
-            secretModal.classList.remove('show');
+  
+            document.getElementById('secret-modal').classList.remove('show');
+
+
+            const world = document.getElementById('world');
+
+            world.style.transition = "transform 15s ease-in-out, background 8s ease-in-out";
+
+            world.style.background = "linear-gradient(to top, #ff512f 0%, #f09819 40%, #4facfe 100%)";
+
+            const nightItems = document.querySelectorAll('.star, .shooting-star, #secret-star, .moon, .firefly');
+            nightItems.forEach(item => {
+                if(item) { 
+                    item.style.transition = "opacity 5s ease";
+                    item.style.opacity = "0";
+                }
+            });
+
+            const finalMsg = document.getElementById('final-msg');
+            finalMsg.style.transition = "opacity 1.5s";
+            finalMsg.style.opacity = "0"; 
+
+            setTimeout(() => {
+                
+                finalMsg.innerHTML = '<h1 style="font-size: 3.5rem; color:#fff; text-shadow:0 0 30px #f09819">Bem-vindo a 2026.</h1><p style="font-size:1.2rem; margin-top:10px;"></p>';
+                finalMsg.style.opacity = "1";
+            }, 1500);
         }
+        function spawnFireflies() {
+            const ground = document.getElementById('ground-section');
+            for(let i=0; i<30; i++) {
+                const f = document.createElement('div');
+                f.classList.add('firefly');
+                f.style.left = Math.random() * 100 + '%';
+                f.style.bottom = Math.random() * 40 + '%'; 
+                f.style.animationDelay = Math.random() * 5 + 's';
+                f.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                ground.appendChild(f);
+            }
+        }
+        spawnFireflies();
+
+        document.addEventListener('mousemove', (e) => {
+            const p = document.createElement('div');
+            p.classList.add('mouse-particle');
+            p.style.left = e.pageX + 'px';
+            p.style.top = e.pageY + 'px';
+            document.body.appendChild(p);
+            
+            setTimeout(() => { p.remove(); }, 1000);
+        });
 
     </script>
 </body>
-
 </html>
